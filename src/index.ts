@@ -41,7 +41,7 @@ app.get('/products', (req: Request, res: Response) => {
 //esse aqui embaixo não deu certo
 app.get('/product/search', (req: Request, res: Response) => {
     const q = req.query.q as string
-    const result = products.filter((product) => {
+    const result: TProduct[] = products.filter((product) => {
         return product.name.toLowerCase().includes(q.toLowerCase())
     })
     res.status(200).send(result)
