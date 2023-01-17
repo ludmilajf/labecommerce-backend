@@ -1,6 +1,5 @@
 import { PRODUCTS_CATEGORY, TProduct, TPurchase, TUser } from "./types";
 
-
 export const users: TUser[] = [
     {
         id: "u001",
