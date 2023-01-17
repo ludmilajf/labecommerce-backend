@@ -120,4 +120,3 @@ export const getAllPurchasesFromUserId = (userId: string) => {
     let userIdToSearch = purchases.filter((purchase) => purchase.userId === userId)
     return console.table(userIdToSearch)
 }
-
