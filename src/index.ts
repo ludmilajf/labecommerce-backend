@@ -81,3 +81,4 @@ app.post('/purchases', (req: Request, res: Response) => {
     purchases.push(newPurchase)
     res.status(201).send('Compra realizada com sucesso.')
 })
+
