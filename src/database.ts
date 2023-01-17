@@ -1,5 +1,6 @@
 import { PRODUCTS_CATEGORY, TProduct, TPurchase, TUser } from "./types";
 
+
 export const users: TUser[] = [
     {
         id: "u001",
@@ -120,3 +121,4 @@ export const getAllPurchasesFromUserId = (userId: string) => {
     let userIdToSearch = purchases.filter((purchase) => purchase.userId === userId)
     return console.table(userIdToSearch)
 }
+
