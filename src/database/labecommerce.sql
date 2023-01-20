@@ -1,4 +1,5 @@
 -- Active: 1674220021121@@127.0.0.1@3306
+-- CRIANDO TABELAS
 CREATE TABLE users (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     email TEXT UNIQUE NOT NULL,
@@ -12,6 +13,7 @@ CREATE TABLE products (
     category TEXT NOT NULL
 );
 
+--POPULANDO TABELAS
 INSERT INTO users (id, email, password)
 VALUES
     ("u001", "u001@email.com", "u0010010"), 
@@ -26,6 +28,53 @@ VALUES
     ("p004", "Relógio Digital", "290", "eletronicos"),
     ("p005", "Tênis Nike", "240", "sapatos");    
 
-SELECT * FROM users;
+-- GET ALL USERS // REFATORADO PARA ORDEM CRESCENTE NO EMAIL
+SELECT * FROM users
+ORDER BY email ASC;
 
-SELECT * FROM products;
+-- GET ALL PRODUCTS // REFATORADO PARA ORDEM CRESCENTE DE PRICE E LIMIT 20 COMEÇANDO NO 1º ITEM
+SELECT * FROM products
+ORDER BY price ASC
+LIMIT 20 OFFSET 0;
+
+-- GET ALL PRODUCTS 2 II // COM INTERVALO DE PREÇOS EM ORDEM CRESCENTE
+SELECT * FROM products
+WHERE price >= "50"
+AND price <= "150"
+ORDER BY price ASC;
+
+--SEARCH PRODUCT BY NAME
+SELECT * FROM products
+WHERE name = "Camisa AstroDev";
+
+--CREATE USER
+INSERT INTO users (id, email, password)
+VALUES
+    ("u004", "u004@email.com", "u0040040");
+
+--CREATE PRODUCT
+INSERT INTO products (id, name, price, category)
+VALUES
+    ("p006", "Tênis Vans Astronauta", "199", "sapatos");
+
+--GET PRODUCTS BY ID
+SELECT * FROM products
+WHERE id = "p004";
+
+--DELETE USER BY ID  
+DELETE FROM users
+WHERE id = "u004";
+
+-- DELETE PRODUCT BY ID    
+DELETE FROM products
+WHERE id = "p006";
+
+-- EDIT USER BY ID
+UPDATE users
+SET email = "usuario1@gmail.com"
+WHERE id = "u001";
+
+-- EDIT PRODUCT BY ID
+UPDATE products
+SET price = "119"
+WHERE id = "p002";
