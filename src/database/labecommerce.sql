@@ -13,6 +13,15 @@ CREATE TABLE products (
     category TEXT NOT NULL
 );
 
+CREATE TABLE purchases (
+    id TEXT PRIMARY KEY UNIQUE NOT NULL,
+    total_price REAL NOT NULL,
+    paid INTEGER NOT NULL,
+    delivered_at TEXT, 
+    buyer_id TEXT NOT NULL,
+    FOREIGN KEY (buyer_id) REFERENCES users (id)
+);
+
 --POPULANDO TABELAS
 INSERT INTO users (id, email, password)
 VALUES
@@ -22,11 +31,20 @@ VALUES
 
 INSERT INTO products (id, name, price, category)
 VALUES
-    ("p001", "Camisa AstroDev", "70", "roupas"),
-    ("p002", "Calça Moletom Nike", "90", "roupas"),
-    ("p003", "Óculos Geek", "60", "acessorios"),
-    ("p004", "Relógio Digital", "290", "eletronicos"),
-    ("p005", "Tênis Nike", "240", "sapatos");    
+    ("p001", "Camisa AstroDev", 70, "roupas"),
+    ("p002", "Calça Moletom Nike", 90, "roupas"),
+    ("p003", "Óculos Geek", 60, "acessorios"),
+    ("p004", "Relógio Digital", 290, "eletronicos"),
+    ("p005", "Tênis Nike", 240, "sapatos");    
+
+INSERT INTO purchases (id, total_price, paid, delivered_at, buyer_id)
+VALUES
+    ("pur001", 240, 0, NULL, "u001"),
+    ("pur002", 60, 0, NULL, "u001"), 
+    ("pur003", 90, 0, NULL, "u002"),
+    ("pur004", 240, 0, NULL, "u002"),
+    ("pur005", 290, 0, NULL, "u003"),
+    ("pur006", 60, 0, NULL, "u003");  
 
 -- GET ALL USERS // REFATORADO PARA ORDEM CRESCENTE NO EMAIL
 SELECT * FROM users
@@ -36,6 +54,9 @@ ORDER BY email ASC;
 SELECT * FROM products
 ORDER BY price ASC
 LIMIT 20 OFFSET 0;
+
+--GET ALL PURCHASES
+SELECT * FROM purchases;
 
 -- GET ALL PRODUCTS 2 II // COM INTERVALO DE PREÇOS EM ORDEM CRESCENTE
 SELECT * FROM products
@@ -78,3 +99,17 @@ WHERE id = "u001";
 UPDATE products
 SET price = "119"
 WHERE id = "p002";
+
+--UPDATE PEDIDO ENTREGUE
+UPDATE purchases
+SET delivered_at = datetime('now')
+WHERE id = "pur001";
+
+SELECT 
+users.id AS userID,
+users.email,
+purchases.*
+FROM users
+INNER JOIN purchases
+ON purchases.buyer_id = users.id;
+
