@@ -22,6 +22,20 @@ CREATE TABLE purchases (
     FOREIGN KEY (buyer_id) REFERENCES users (id)
 );
 
+CREATE TABLE purchases_products (
+    purchase_id TEXT NOT NULL,
+    product_id TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    FOREIGN KEY (purchase_id) REFERENCES purchases (id),
+    FOREIGN KEY (product_id) REFERENCES products (id)   
+);
+
+SELECT * FROM users;
+SELECT * FROM products;
+SELECT * FROM purchases;
+
+DROP TABLE purchases_products;
+
 --POPULANDO TABELAS
 INSERT INTO users (id, email, password)
 VALUES
@@ -45,6 +59,13 @@ VALUES
     ("pur004", 240, 0, NULL, "u002"),
     ("pur005", 290, 0, NULL, "u003"),
     ("pur006", 60, 0, NULL, "u003");  
+
+INSERT INTO purchases_products (purchase_id, product_id, quantity)
+VALUES
+    ("pur001", "p001", 2),
+    ("pur002", "p003", 1),
+    ("pur003", "p005", 1),
+    ("pur004", "p002", 1);  
 
 -- GET ALL USERS // REFATORADO PARA ORDEM CRESCENTE NO EMAIL
 SELECT * FROM users
@@ -105,11 +126,25 @@ UPDATE purchases
 SET delivered_at = datetime('now')
 WHERE id = "pur001";
 
+--INNER JOIN users e purchases
 SELECT 
-users.id AS userID,
+users.id AS userId,
 users.email,
 purchases.*
 FROM users
 INNER JOIN purchases
 ON purchases.buyer_id = users.id;
 
+-- INNER JOIN purchases_products, purchases e products
+SELECT 
+purchases.id AS purchaseID,
+products.id AS productId,
+products.name AS productName,
+purchases_products.quantity,
+purchases.buyer_id,
+purchases.total_price
+FROM purchases_products
+INNER JOIN purchases
+ON purchases_products.purchase_id = purchases.id
+INNER JOIN products
+ON purchases_products.product_id = products.id;
