@@ -52,7 +52,7 @@
 <li><strong><h3>Busca das compras de um usuário:</h3></strong></li>
 <ul>
 <li> <strong>Método:</strong> GET  </li>
-<li> <strong>Path:</strong>"/users/:user_id/purchases" </li>
+<li> <strong>Path:</strong>"/users/:id/purchases" </li>
 <li> <strong>Parâmetros recebido via path params:</strong> user id </li>
 </ul>
 </p>
