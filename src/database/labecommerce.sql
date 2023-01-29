@@ -1,34 +1,41 @@
 -- Active: 1674220021121@@127.0.0.1@3306
+DROP TABLE users;
+DROP TABLE products;
+DROP TABLE purchases;
+DROP TABLE purchases_products;
 -- CRIANDO TABELAS
 CREATE TABLE users (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL  
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    create_at TEXT DEFAULT (DATETIME()) NOT NULL
 );
 
 CREATE TABLE products (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     name TEXT NOT NULL,
-    price REAL NOT NULL, 
-    category TEXT NOT NULL
+    price REAL NOT NULL,
+    description TEXT NOT NULL,
+    image_url TEXT
 );
 
 CREATE TABLE purchases (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     total_price REAL NOT NULL,
     paid INTEGER NOT NULL,
-    delivered_at TEXT, 
+    create_at TEXT DEFAULT (DATETIME()) NOT NULL,
+    delivered_at TEXT,  
     buyer_id TEXT NOT NULL,
     FOREIGN KEY (buyer_id) REFERENCES users (id)
 );
 
-CREATE TABLE purchases_products (
-    purchase_id TEXT NOT NULL,
-    product_id TEXT NOT NULL,
-    quantity INTEGER NOT NULL,
-    FOREIGN KEY (purchase_id) REFERENCES purchases (id),
-    FOREIGN KEY (product_id) REFERENCES products (id)   
-);
+CREATE TABLE purchases_products
+(purchase_id TEXT NOT NULL, 
+product_id TEXT NOT NULL,
+quantity INTEGER NOT NULL,
+FOREIGN KEY (purchase_id) REFERENCES purchases(id),
+FOREIGN KEY (product_id) REFERENCES products(id));
 
 SELECT * FROM users;
 SELECT * FROM products;
@@ -37,13 +44,13 @@ SELECT * FROM purchases;
 DROP TABLE purchases_products;
 
 --POPULANDO TABELAS
-INSERT INTO users (id, email, password)
+INSERT INTO users (id, name, email, password)
 VALUES
-    ("u001", "u001@email.com", "u0010010"), 
-    ("u002", "u002@email.com", "u0020020"),
-    ("u003", "u003@email.com", "u0030030"); 
+    ("u001", "Usuário 1", "u001@email.com", "u0010010"), 
+    ("u002", "Usuário 2", "u002@email.com", "u0020020"),
+    ("u003", "Usuário 3", "u003@email.com", "u0030030"); 
 
-INSERT INTO products (id, name, price, category)
+INSERT INTO products (id, name, price, description)
 VALUES
     ("p001", "Camisa AstroDev", 70, "roupas"),
     ("p002", "Calça Moletom Nike", 90, "roupas"),
@@ -62,7 +69,7 @@ VALUES
 
 INSERT INTO purchases_products (purchase_id, product_id, quantity)
 VALUES
-    ("pur001", "p001", 2),
+    ("pur001", "p002", 2),
     ("pur002", "p003", 1),
     ("pur003", "p005", 1),
     ("pur004", "p002", 1);  
@@ -90,12 +97,12 @@ SELECT * FROM products
 WHERE name = "Camisa AstroDev";
 
 --CREATE USER
-INSERT INTO users (id, email, password)
+INSERT INTO users (id, name, email, password)
 VALUES
-    ("u004", "u004@email.com", "u0040040");
+    ("u004", "Usuário 4", "u004@email.com", "u0040040");
 
 --CREATE PRODUCT
-INSERT INTO products (id, name, price, category)
+INSERT INTO products (id, name, price, description)
 VALUES
     ("p006", "Tênis Vans Astronauta", "199", "sapatos");
 
